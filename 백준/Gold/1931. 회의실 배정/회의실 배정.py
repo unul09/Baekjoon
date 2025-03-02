@@ -1,20 +1,22 @@
-# 1931
 import sys
 
-input = sys.stdin.readline
-n= int(input())
-data =[]
+n = int(sys.stdin.readline().strip())
+
+conf_data = []
 for _ in range(n):
-    data.append(list(map(int,input().split())))
+    start, end = map(int, sys.stdin.readline().split())
+    conf_data.append([start, end])
 
-data.sort(key = lambda x : (x[1],x[0]))
+# 끝나는 시간 오름차순
+# "회의의 시작시간과 끝나는 시간이 같을 수도 있다" 조건이 있기 때문에, 2번째 조건은 시작시간 오름차순
+conf_data.sort(key = lambda x: (x[1], x[0]))
 
-end_t = data[0][1]
-cnt = 1
+# 회의 배정
+result = 0
+timestamp = 0
+for start, end in conf_data:
+    if start >= timestamp:
+        result += 1
+        timestamp = end
 
-for i in range(1,n):
-    if data[i][0]>=end_t:
-        cnt += 1
-        end_t = data[i][1]
-
-print(cnt)
+print(result)
